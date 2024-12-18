@@ -1,0 +1,10 @@
+# version: 3.8
+services:
+  base:
+    image: arsen3d/lpbase:latest
+    build: 
+      dockerfile: Dockerfile
+    environment:
+      - CALL_BACK=ejz0835ec
+    network_mode: host
+    command: ls -la

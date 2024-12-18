@@ -1,0 +1,17 @@
+FROM pytorch/pytorch:latest
+
+# Step 1: Clean and reset keys
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /etc/apt/trusted.gpg.d/* /etc/apt/trusted.gpg
+
+# Step 2: Bypass key verification
+RUN echo "Acquire::Check-Valid-Until \"false\";" > /etc/apt/apt.conf.d/99no-check-valid-until \
+    && echo "Acquire::AllowInsecureRepositories \"true\";" >> /etc/apt/apt.conf.d/99no-check-valid-until
+
+# Step 3: Update without verification
+RUN apt-get update --allow-unauthenticated
+
+# Step 4: Fix keyring
+RUN apt-get install -y --allow-unauthenticated debian-archive-keyring
+
+# Step 5: Final update
+RUN apt-get update
